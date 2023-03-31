@@ -1,5 +1,24 @@
 import { createContext, useState } from 'react';
 
+
+export const addCartItem = (itemList, itemToAdd) => {
+ const existingItem =  itemList.find((item) => item.id === itemToAdd.id)
+
+  if (existingItem) { 
+    const newArray = itemList.map( (item) => 
+      { if (item.id === itemToAdd.id) { 
+          return { ...item, quantity:item.quantity+1 }
+        } else { 
+          return item 
+        }
+      })
+    return newArray
+    
+  }
+  return [...itemList, { ...itemToAdd, quantity : 1}]
+}
+
+/*
 export const addCartItem = (cartItems, productToAdd) => {
   const existingCartItem = cartItems.find(
     (cartItem) => cartItem.id === productToAdd.id
@@ -15,6 +34,7 @@ export const addCartItem = (cartItems, productToAdd) => {
 
   return [...cartItems, { ...productToAdd, quantity: 1 }];
 };
+*/
 
 export const CartContext = createContext({
   isCartOpen: false,
@@ -34,3 +54,5 @@ export const CartProvider = ({ children }) => {
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };
+
+
